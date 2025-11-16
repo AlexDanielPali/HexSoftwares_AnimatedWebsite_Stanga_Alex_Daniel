@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solar System Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header animate-header">
+    <h1 class="logo">☀️ Solar System</h1>
+    <nav class="nav">
+      <ul id="nav-list" class="nav-list"></ul>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    </nav>
+    <button id="theme-toggle" class="btn">Toggle Dark Mode</button>
+  </header>
+
+  <!-- Visualization -->
+  <section class="hero animate-slide-up">
+    <div class="solar-container" id="solar-container">
+      <div class="sun"></div>
+    </div>
+    <p class="tip">Click a planet name above to jump to its details.</p>
+  </section>
+
+  <!-- Planet sections -->
+  <main id="planet-sections" class="planet-sections animate-fade-in-delay"></main>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

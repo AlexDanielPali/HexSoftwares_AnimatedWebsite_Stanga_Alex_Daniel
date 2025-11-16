@@ -1,0 +1,218 @@
+/* Base theme variables */
+:root {
+  --bg: #0b1020;
+  --text: #e8ecf1;
+  --card: #151b2e;
+  --accent: #4da3ff;
+  --border: #26324a;
+  --header-h: 64px;
+}
+html[data-theme="light"] {
+  --bg: #f6f8fc;
+  --text: #0f172a;
+  --card: #ffffff;
+  --accent: #2563eb;
+  --border: #e2e8f0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.logo { margin: 0; font-size: 1.25rem; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nav-list {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+.nav a:hover {
+  background: var(--card);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.nav-toggle {
+  display: none;
+  font-size: 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+}
+
+/* Stylized Dark Mode Button */
+#theme-toggle {
+  background: linear-gradient(135deg, #2563eb, #4da3ff);
+  color: #fff;
+  border: none; /* no overlapping borders */
+  border-radius: 30px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+#theme-toggle:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+#theme-toggle:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Solar system visualization */
+.solar-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 2rem auto;
+}
+.sun {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #ffd166, #ff9f1c);
+  border-radius: 50%;
+  box-shadow: 0 0 30px 10px rgba(255, 209, 102, 0.5);
+}
+.orbit {
+  position: absolute;
+  border: 1px dashed var(--border);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  animation-name: revolve;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.planet-body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: var(--size, 12px);
+  height: var(--size, 12px);
+  background: var(--color, #93c5fd);
+  border-radius: 50%;
+}
+.planet-label {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  font-size: 0.7rem;
+  color: var(--text);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Saturn rings */
+.planet-body.saturn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--size) * 2.5);
+  height: calc(var(--size) * 0.6);
+  transform: translate(-50%, -50%) rotate(25deg);
+  border: 2px solid rgba(234, 179, 8, 0.7);
+  border-radius: 50%;
+  background: rgba(234, 179, 8, 0.2);
+}
+
+/* Revolve animation */
+@keyframes revolve {
+  from { transform: translate(-50%, -50%) rotate(0deg) translateX(var(--radius, 100px)); }
+  to   { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--radius, 100px)); }
+}
+
+/* Planet cards */
+.planet-sections {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+.planet-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+.planet-card h2 { margin-top: 0; }
+
+/* Animations */
+.animate-header { animation: slideDownBounce 800ms ease-out both; }
+@keyframes slideDownBounce {
+  0%   { transform: translateY(-100px); opacity: 0; }
+  60%  { transform: translateY(18px); opacity: 1; }
+  80%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+.animate-slide-up { animation: slideUp 700ms ease both; }
+.animate-fade-in-delay { opacity: 0; animation: fadeIn 700ms ease both; animation-delay: 600ms; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Responsive solar system + labels */
+@media (max-width: 900px) {
+  .solar-container { width: 400px; height: 400px; }
+  .planet-label { font-size: 0.65rem; }
+}
+@media (max-width: 600px) {
+  :root { --header-h: 72px; }
+  .solar-container { width: 300px; height: 300px; }
+  .planet-label { font-size: 0.6rem; }
+  .nav-list { display: none; flex-direction: column; gap: 0.5rem; }
+  .nav-toggle { display: inline-block; }
+  .nav-list.open { display: flex; }
+}
+@media (max-width: 400px) {
+  .solar-container { width: 240px; height: 240px; }
+  .planet-label { font-size: 0.55rem; }
+}
