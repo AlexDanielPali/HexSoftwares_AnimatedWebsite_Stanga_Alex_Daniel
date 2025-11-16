@@ -1,4 +1,3 @@
-/* Base theme variables */
 :root {
   --bg: #0b1020;
   --text: #e8ecf1;
@@ -7,6 +6,7 @@
   --border: #26324a;
   --header-h: 64px;
 }
+
 html[data-theme="light"] {
   --bg: #f6f8fc;
   --text: #0f172a;
@@ -14,7 +14,9 @@ html[data-theme="light"] {
   --accent: #2563eb;
   --border: #e2e8f0;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -33,7 +35,9 @@ body {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+  flex-wrap: wrap;
 }
+
 .logo { margin: 0; font-size: 1.25rem; }
 
 .nav {
@@ -41,6 +45,7 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
+
 .nav-list {
   display: flex;
   gap: 0.5rem;
@@ -48,6 +53,7 @@ body {
   padding: 0;
   margin: 0;
 }
+
 .nav a {
   text-decoration: none;
   color: var(--text);
@@ -56,11 +62,13 @@ body {
   border-radius: 6px;
   transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
+
 .nav a:hover {
   background: var(--card);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
+
 .nav-toggle {
   display: none;
   font-size: 1.25rem;
@@ -72,11 +80,11 @@ body {
   cursor: pointer;
 }
 
-/* Stylized Dark Mode Button */
+/* Dark Mode Button */
 #theme-toggle {
   background: linear-gradient(135deg, #2563eb, #4da3ff);
   color: #fff;
-  border: none; /* no overlapping borders */
+  border: none;
   border-radius: 30px;
   padding: 0.6rem 1.2rem;
   font-size: 0.95rem;
@@ -101,6 +109,7 @@ body {
   height: 500px;
   margin: 2rem auto;
 }
+
 .sun {
   position: absolute;
   left: 50%;
@@ -112,6 +121,7 @@ body {
   border-radius: 50%;
   box-shadow: 0 0 30px 10px rgba(255, 209, 102, 0.5);
 }
+
 .orbit {
   position: absolute;
   border: 1px dashed var(--border);
@@ -120,6 +130,7 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
 .planet {
   position: absolute;
   top: 50%;
@@ -131,6 +142,7 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
 .planet-body {
   position: absolute;
   top: 0;
@@ -141,17 +153,7 @@ body {
   background: var(--color, #93c5fd);
   border-radius: 50%;
 }
-.planet-label {
-  position: absolute;
-  top: -20px;
-  left: 10px;
-  font-size: 0.7rem;
-  color: var(--text);
-  opacity: 0.8;
-  pointer-events: none;
-}
 
-/* Saturn rings */
 .planet-body.saturn::before {
   content: "";
   position: absolute;
@@ -163,6 +165,16 @@ body {
   border: 2px solid rgba(234, 179, 8, 0.7);
   border-radius: 50%;
   background: rgba(234, 179, 8, 0.2);
+}
+
+.planet-label {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  font-size: 0.7rem;
+  color: var(--text);
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 /* Revolve animation */
@@ -177,6 +189,7 @@ body {
   gap: 1rem;
   padding: 1rem;
 }
+
 .planet-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -184,6 +197,7 @@ body {
   padding: 1rem;
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
+
 .planet-card h2 { margin-top: 0; }
 
 /* Animations */
@@ -194,25 +208,16 @@ body {
   80%  { transform: translateY(-8px); }
   100% { transform: translateY(0); }
 }
+
 .animate-slide-up { animation: slideUp 700ms ease both; }
 .animate-fade-in-delay { opacity: 0; animation: fadeIn 700ms ease both; animation-delay: 600ms; }
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-/* Responsive solar system + labels */
-@media (max-width: 900px) {
-  .solar-container { width: 400px; height: 400px; }
-  .planet-label { font-size: 0.65rem; }
-}
-@media (max-width: 600px) {
-  :root { --header-h: 72px; }
-  .solar-container { width: 300px; height: 300px; }
-  .planet-label { font-size: 0.6rem; }
-  .nav-list { display: none; flex-direction: column; gap: 0.5rem; }
-  .nav-toggle { display: inline-block; }
-  .nav-list.open { display: flex; }
-}
-@media (max-width: 400px) {
-  .solar-container { width: 240px; height: 240px; }
-  .planet-label { font-size: 0.55rem; }
-}
+/* Responsive scaling */
+@media (max-width: 1200px)  { .solar-container { width: 450px; height: 450px; } .planet-label { font-size:0.68rem; } }
+@media (max-width: 992px)   { .solar-container { width: 400px; height: 400px; } .planet-label { font-size:0.65rem; } }
+@media (max-width: 768px)   { .solar-container { width: 350px; height: 350px; } .planet-label { font-size:0.62rem; } }
+@media (max-width: 600px)   { :root { --header-h: 72px; } .solar-container { width: 300px; height: 300px; } .planet-label { font-size:0.6rem; } .nav-list { display: none; flex-direction: column; gap: 0.5rem; } .nav-toggle { display: inline-block; } .nav-list.open { display: flex; } }
+@media (max-width: 400px)   { .solar-container { width: 240px; height: 240px; } .planet-label { font-size:0.55rem; } }

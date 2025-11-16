@@ -1,7 +1,3 @@
-/* =========================================
-   Solar System Explorer — script.js
-   ========================================= */
-
 /* Planet data */
 const PLANETS = [
   { id: "mercury", name: "Mercury", color: "#cbd5e1", size: 10, radius: 100, period: 10,
@@ -24,7 +20,18 @@ const PLANETS = [
     description: "Dwarf planet in the Kuiper Belt.", facts: { diameter: "2,377 km", distance: "39.5 AU", moons: 5 } }
 ];
 
-/* Render navigation links */
+/* Dynamic scaling based on window width */
+function getScaleFactor() {
+  const w = window.innerWidth;
+  if (w <= 400) return 0.48;
+  if (w <= 600) return 0.6;
+  if (w <= 768) return 0.7;
+  if (w <= 992) return 0.8;
+  if (w <= 1200) return 0.9;
+  return 1;
+}
+
+/* Render nav */
 function renderNav() {
   const navList = document.getElementById("nav-list");
   PLANETS.forEach(p => {
@@ -37,31 +44,29 @@ function renderNav() {
   });
 }
 
-/* Render solar system visualization */
+/* Render solar system */
 function renderVisualization() {
   const container = document.getElementById("solar-container");
+  container.innerHTML = '<div class="sun"></div>'; // clear before redraw
+  const scale = getScaleFactor();
   PLANETS.forEach(p => {
-    // Orbit ring
     const orbit = document.createElement("div");
     orbit.className = "orbit";
-    orbit.style.width = `${p.radius * 2}px`;
-    orbit.style.height = `${p.radius * 2}px`;
+    orbit.style.width = `${p.radius*2*scale}px`;
+    orbit.style.height = `${p.radius*2*scale}px`;
     container.appendChild(orbit);
 
-    // Planet revolving
     const planet = document.createElement("div");
     planet.className = "planet";
-    planet.style.setProperty("--radius", `${p.radius}px`);
+    planet.style.setProperty("--radius", `${p.radius*scale}px`);
     planet.style.animationDuration = `${p.period}s`;
 
-    // Planet body
     const body = document.createElement("span");
     body.className = "planet-body";
-    body.style.setProperty("--size", `${p.size}px`);
+    body.style.setProperty("--size", `${p.size*scale}px`);
     body.style.setProperty("--color", p.color);
-    if (p.id === "saturn") body.classList.add("saturn");
+    if(p.id === "saturn") body.classList.add("saturn");
 
-    // Label
     const label = document.createElement("span");
     label.className = "planet-label";
     label.textContent = p.name;
@@ -72,15 +77,15 @@ function renderVisualization() {
   });
 }
 
-/* Render planet detail cards */
+/* Render planet cards */
 function renderPlanetSections() {
   const sections = document.getElementById("planet-sections");
-  PLANETS.forEach((p, i) => {
+  sections.innerHTML = '';
+  PLANETS.forEach((p,i)=>{
     const card = document.createElement("section");
-    card.className = "planet-card";
+    card.className="planet-card";
     card.id = p.id;
-    card.style.animationDelay = `${0.15 + i * 0.1}s`;
-
+    card.style.animationDelay = `${0.15 + i*0.1}s`;
     card.innerHTML = `
       <h2>${p.name}</h2>
       <p>${p.description}</p>
@@ -94,36 +99,30 @@ function renderPlanetSections() {
   });
 }
 
-/* Dark mode toggle */
+/* Dark mode */
 function setupThemeToggle() {
   const btn = document.getElementById("theme-toggle");
   const root = document.documentElement;
-
   const saved = localStorage.getItem("theme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const initial = saved || (prefersDark ? "dark" : "light");
+  const initial = saved || (prefersDark ? "dark":"light");
   root.setAttribute("data-theme", initial);
-
   btn.addEventListener("click", () => {
-    const current = root.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
+    const next = root.getAttribute("data-theme")==="dark"?"light":"dark";
     root.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
   });
 }
 
-/* Smooth scrolling for nav links (robust, handles dynamic links) */
+/* Smooth scroll */
 function setupSmoothScroll() {
   const navList = document.getElementById("nav-list");
   navList.addEventListener("click", e => {
     const link = e.target.closest("a[href^='#']");
-    if (!link) return;
+    if(!link) return;
     e.preventDefault();
-    const targetId = link.getAttribute("href").slice(1);
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const target = document.getElementById(link.getAttribute("href").slice(1));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
   });
 }
 
@@ -131,20 +130,20 @@ function setupSmoothScroll() {
 function setupNavToggle() {
   const toggle = document.getElementById("nav-toggle");
   const navList = document.getElementById("nav-list");
-  if (!toggle || !navList) return;
-  toggle.addEventListener("click", () => {
-    navList.classList.toggle("open");
-  });
+  toggle?.addEventListener("click",()=>navList.classList.toggle("open"));
 }
 
-/* Initialize everything */
+/* Redraw planets on resize */
+window.addEventListener("resize", renderVisualization);
+
+/* Init */
 function init() {
-  renderNav();              // links
-  renderVisualization();    // planets + labels
-  renderPlanetSections();   // sections with IDs
-  setupThemeToggle();       // dark mode
-  setupSmoothScroll();      // nav link smooth scroll
-  setupNavToggle();         // mobile toggle
+  renderNav();
+  renderVisualization();
+  renderPlanetSections();
+  setupThemeToggle();
+  setupSmoothScroll();
+  setupNavToggle();
 }
 
 document.addEventListener("DOMContentLoaded", init);
